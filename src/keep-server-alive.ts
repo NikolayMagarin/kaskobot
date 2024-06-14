@@ -8,17 +8,13 @@ export function startSelfPingLoop() {
     const app = express();
 
     app.get('/', function (_req, res) {
-      console.log('server still alive');
-      setTimeout(() => {
-        fetch(serverUrl + '/');
-      }, 30_000);
       res.json({ status: 'alive' });
     });
 
-    app.listen(8081, () => {
-      fetch(serverUrl + '/');
+    const server = app.listen(8081, () => {
+      started = true;
     });
 
-    started = true;
+    server.keepAliveTimeout = 120_000;
   }
 }

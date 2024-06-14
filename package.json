@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.ts",
   "scripts": {
-    "start": "node out/index.js",
+    "start": "node ./out/index.js",
     "build": "npx tsc -p ./tsconfig.json --outDir out",
     "build-start": "npm run build & npm start"
   },

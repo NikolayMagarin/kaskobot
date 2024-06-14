@@ -13,6 +13,7 @@ export function startSelfPingLoop() {
 
     const server = app.listen(8081, () => {
       started = true;
+      console.log('Server started');
     });
 
     server.keepAliveTimeout = 120_000;

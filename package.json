@@ -1,0 +1,28 @@
+{
+  "name": "kaskogart-tg-bot",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.ts",
+  "scripts": {
+    "start": "node out/index.js",
+    "build": "npx tsc -p ./tsconfig.json --outDir out",
+    "build-start": "npm run build & npm start"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "assert": "^2.1.0",
+    "dotenv": "^16.4.5",
+    "filereader": "^0.10.3",
+    "g4f": "^1.4.3",
+    "images": "^3.2.4",
+    "node-fetch": "^2.7.0",
+    "node-telegram-bot-api": "^0.66.0"
+  },
+  "devDependencies": {
+    "@types/node-fetch": "^2.6.11",
+    "@types/node-telegram-bot-api": "^0.64.6",
+    "typescript": "^5.4.5"
+  }
+}

@@ -2,6 +2,9 @@ import TelegramBot from 'node-telegram-bot-api';
 import { askGPT, drawImage } from './features/gpt';
 import { buildKaskaWithWeatherImage } from './features/weather/make-image';
 import { getCurrentWeather } from './features/weather';
+import { startSelfPingLoop } from './keep-server-alive';
+
+startSelfPingLoop();
 
 const bot = new TelegramBot(process.env.TELEGRAM_TOKEN!, {
   polling: {

@@ -6,7 +6,7 @@
   "scripts": {
     "start": "node ./out/index.js",
     "build": "npx tsc -p ./tsconfig.json --outDir out",
-    "build-start": "npm run build & npm start"
+    "build-start": "npx tsc -p ./tsconfig.json --outDir out & node ./out/index.js"
   },
   "keywords": [],
   "author": "",

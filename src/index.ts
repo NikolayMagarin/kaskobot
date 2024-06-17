@@ -1,10 +1,12 @@
 import TelegramBot from 'node-telegram-bot-api';
-import { askGPT, drawImage } from './features/gpt';
-import { buildKaskaWithWeatherImage } from './features/weather/make-image';
-import { getCurrentWeather } from './features/weather';
-import { startSelfPingLoop } from './keep-server-alive';
+import { handleGpt, handleImg } from './features/gpt/handlers';
+import { handleHelp } from './features/help/handlers';
+import { handleSummary } from './features/summary/handlers';
+import { memorizeMessage } from './features/summary/memory';
+import { startKeepAliveServer } from './keep-alive-server';
+import { CommandManager } from './manage-commands';
 
-startSelfPingLoop();
+const keepAliveServer = startKeepAliveServer();
 
 const bot = new TelegramBot(process.env.TELEGRAM_TOKEN!, {
   polling: {
@@ -13,61 +15,36 @@ const bot = new TelegramBot(process.env.TELEGRAM_TOKEN!, {
   },
 });
 
-bot.onText(/\/weather (.+)/, async (msg, match) => {
-  const chatId = msg.chat.id;
-
-  if (!match) {
-    return;
-  }
-
-  const location = match[1];
-  const weather = await getCurrentWeather(location);
-
-  if (weather.error) {
-    bot.sendMessage(chatId, weather.error.message);
-  } else {
-    const photo = await buildKaskaWithWeatherImage(
-      `https:${weather.current.condition.icon}`
-    );
-    bot.sendPhoto(chatId, photo);
-    // bot.setChatPhoto(chatId, photo);
+bot.on('polling_error', (error) => {
+  console.error(error);
+  const errorMsg = error.message.toLowerCase();
+  if (errorMsg.includes('409') && errorMsg.includes('conflict')) {
+    bot.stopPolling();
+    keepAliveServer?.close();
   }
 });
 
-bot.onText(/\/gpt (.+)/, async (msg, match) => {
-  const chatId = msg.chat.id;
+const commands = new CommandManager(bot);
 
-  if (!match) {
-    return;
-  }
-
-  const question = match[1];
-  const userName = msg.from?.first_name || msg.from?.username;
-  askGPT(question, userName || 'неизвестный').then((answer) => {
-    bot.sendMessage(chatId, answer);
-  });
+commands.add('start', (bot, msg, _params, _input) => {
+  bot.sendMessage(msg.chat.id, 'Стартуем!');
 });
 
-bot.onText(/\/img (.+)/, async (msg, match) => {
-  const chatId = msg.chat.id;
-
-  if (!match) {
-    return;
-  }
-
-  const request = match[1];
-  drawImage(request).then((image) => {
-    if (image) {
-      bot.sendPhoto(chatId, image, { reply_to_message_id: msg.message_id });
-    } else {
-      bot.sendMessage(chatId, 'Что-то не так, не могу сейчас нарисовать', {
-        reply_to_message_id: msg.message_id,
-      });
-    }
-  });
+commands.add('all', (bot, msg, _params, _input) => {
+  bot.sendMessage(
+    msg.chat.id,
+    '@andrewbogdanovDA @burningstar1 @dalf_the_maker @denekben @iwascleaningthechimney @MinecraftLoverOneLife @NikolayMagarin @PoloViks'
+  );
 });
 
-bot.onText(/[^\/].*/, () => {
-  // any text
-  // Думаю может сохранять все сообщения?
+commands.add('gpt', handleGpt);
+commands.add('img', handleImg);
+commands.add('help', handleHelp);
+commands.add('summary', handleSummary);
+
+bot.on('message', (msg, data) => {
+  // Команды не запоминаем
+  if (!msg.text?.startsWith('/')) {
+    memorizeMessage(bot, msg, data);
+  }
 });

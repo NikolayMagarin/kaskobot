@@ -1,5 +1,4 @@
 import images from 'images';
-import { imageUrlToBase64 } from '../../utils/imageUrlToBase64';
 
 export async function buildKaskaWithWeatherImage(url: string): Promise<Buffer> {
   const weatherImage = Buffer.from(await (await fetch(url)).arrayBuffer());

@@ -29,11 +29,7 @@ export function startKeepAliveServer() {
             body: JSON.stringify({
               adminSecret: config.adminSecret,
             }),
-          })
-            .then(() => {
-              console.log('server still alive');
-            })
-            .catch();
+          }).catch();
         }, 30_000);
         res.json({ ok: true, status: 'alive' });
       })
@@ -53,10 +49,12 @@ export function startKeepAliveServer() {
           if (
             !req.body?.data ||
             !Array.isArray(req.body.data) ||
-            typeof req.body.data[0]?.id !== 'number' ||
-            typeof req.body.data[0]?.text !== 'string'
+            (req.body.data.length &&
+              (typeof req.body.data[0]?.id !== 'number' ||
+                typeof req.body.data[0]?.text !== 'string'))
           ) {
             res.status(400).json({ ok: false, data: 'invalid data' });
+            return;
           }
           setMemory(req.body.data);
           res.status(200).json({ ok: true });

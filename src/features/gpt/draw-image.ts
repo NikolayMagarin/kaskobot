@@ -84,7 +84,6 @@ export function drawImage(
       return g4f
         .imageGeneration(translated.translation.result, options)
         .then((base64Image) => {
-          console.log('drawed');
           return { image: Buffer.from(base64Image, 'base64'), error: null };
         })
         .catch((reason) => {

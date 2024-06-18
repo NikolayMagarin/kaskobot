@@ -38,7 +38,7 @@ export function summarize(discussion: string[]) {
         if (result.status === 'fulfilled') {
           return result.value;
         } else {
-          console.log(result.reason);
+          console.error(result.reason);
           return '[этот отравок перессказать не удалось]';
         }
       })

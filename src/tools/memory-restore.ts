@@ -9,10 +9,13 @@ fetch(`${config.serverUrl}/memory/restore`, {
   },
   body: JSON.stringify({
     adminSecret: config.adminSecret,
-    data: JSON.parse(readFileSync('./data/memory.json').toString()),
+    data: JSON.parse(readFileSync('./temp-data/memory.json').toString()),
   }),
 })
   .then((res) => res.json())
   .then((body) => {
     console.log(`ok: ${body.ok}`);
+    if (!body.ok) {
+      console.log(body.data);
+    }
   });

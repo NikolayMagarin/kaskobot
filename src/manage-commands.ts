@@ -17,7 +17,7 @@ export class CommandManager {
     this._bot = bot;
     this._commands = new Map();
 
-    bot.onText(/^\/(\w+)( {(.+?)})?( (.+))?$/, (msg, match) => {
+    bot.onText(/^\/(\w+)( {(.+?)})?( ([^]+))?/, (msg, match) => {
       if (!match) {
         bot.sendMessage(msg.chat.id, 'Не понимаю команду 😔');
         return;

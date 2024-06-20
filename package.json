@@ -12,7 +12,9 @@
     "memory-save-localhost": "set SERVER_URL=http://localhost:8080&& node ./out/tools/memory-save.js",
     "memory-restore-localhost": "set SERVER_URL=http://localhost:8080&& node ./out/tools/memory-restore.js"
   },
-  "pre-commit": ["memory-save"],
+  "pre-commit": [
+    "memory-save"
+  ],
   "keywords": [],
   "author": "",
   "license": "ISC",

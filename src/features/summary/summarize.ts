@@ -39,7 +39,7 @@ export function summarize(discussion: string[]) {
           return result.value;
         } else {
           console.error(result.reason);
-          return '[этот отравок перессказать не удалось]';
+          return '[этот отравок перессказать не удалось 😔]';
         }
       })
       .join(' ')

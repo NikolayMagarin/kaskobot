@@ -1,6 +1,7 @@
 import TelegramBot from 'node-telegram-bot-api';
 import { handleGpt, handleImg } from './features/gpt/handlers';
 import { handleHelp } from './features/help/handlers';
+import { handleJoke } from './features/joke/handlers';
 import { handleSummary } from './features/summary/handlers';
 import { memorizeMessage } from './features/summary/memory';
 import { startKeepAliveServer } from './keep-alive-server';
@@ -41,6 +42,7 @@ commands.add('gpt', handleGpt);
 commands.add('img', handleImg);
 commands.add('help', handleHelp);
 commands.add('summary', handleSummary);
+commands.add('git', handleJoke);
 
 bot.on('message', (msg, data) => {
   // Команды не запоминаем

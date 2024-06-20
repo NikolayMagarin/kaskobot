@@ -27,7 +27,6 @@ export const handleSummary: CommandHandler = (bot, msg, params, input) => {
     return;
   }
 
-  // Для теста пока так
   summarize(
     memory.slice(firstMesssageIndex).map((memMessage) => memMessage.text)
   ).then((sum) => {

@@ -7,18 +7,19 @@
     "start": "node ./out/index.js",
     "build": "npx tsc -p ./tsconfig.json --outDir out",
     "build-start": "npm run build && npm start",
-    "memory-save": "set SERVER_URL=https://kaskobot.onrender.com&& node ./out/tools/memory-save.js",
-    "memory-restore": "set SERVER_URL=https://kaskobot.onrender.com&& node ./out/tools/memory-restore.js",
-    "memory-save-localhost": "set SERVER_URL=http://localhost:8080&& node ./out/tools/memory-save.js",
-    "memory-restore-localhost": "set SERVER_URL=http://localhost:8080&& node ./out/tools/memory-restore.js"
+    "global-data-save": "set SERVER_URL=https://kaskobot.onrender.com&& node ./out/tools/global-data-save.js",
+    "global-data-restore": "set SERVER_URL=https://kaskobot.onrender.com&& node ./out/tools/global-data-restore.js",
+    "global-data-save-localhost": "set SERVER_URL=http://localhost:8080&& node ./out/tools/global-data-save.js",
+    "global-data-restore-localhost": "set SERVER_URL=http://localhost:8080&& node ./out/tools/global-data-restore.js"
   },
   "pre-commit": [
-    "memory-save"
+    "global-data-save"
   ],
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "assemblyai": "^4.5.0",
     "assert": "^2.1.0",
     "dotenv": "^16.4.5",
     "express": "^4.19.2",

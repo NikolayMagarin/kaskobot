@@ -1,19 +1,19 @@
 import fetch from 'node-fetch';
 import { config } from './config';
-import { readFileSync } from 'fs';
+import { writeFileSync } from 'fs';
 
-fetch(`${config.serverUrl}/memory/restore`, {
+fetch(`${config.serverUrl}/tools/global-data/save`, {
   method: 'POST',
   headers: {
     'Content-Type': 'application/json',
   },
   body: JSON.stringify({
     adminSecret: config.adminSecret,
-    data: JSON.parse(readFileSync('./temp-data/memory.json').toString()),
   }),
 })
   .then((res) => res.json())
   .then((body) => {
+    writeFileSync('./temp-data/global.json', JSON.stringify(body.data));
     console.log(`ok: ${body.ok}`);
     if (!body.ok) {
       console.log(body.data);

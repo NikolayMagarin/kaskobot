@@ -1,13 +1,10 @@
 import TelegramBot from 'node-telegram-bot-api';
-import { handleGpt, handleImg } from './features/gpt/handlers';
-import { handleHelp } from './features/help/handlers';
-import { handleJoke } from './features/joke/handlers';
-import { handleSummary } from './features/summary/handlers';
 import { memorizeMessage } from './features/summary/memory';
-import { startKeepAliveServer } from './keep-alive-server';
+import { startServer } from './server';
 import { CommandManager } from './manage-commands';
+import * as h from './features';
 
-const keepAliveServer = startKeepAliveServer();
+const keepAliveServer = startServer();
 
 const bot = new TelegramBot(process.env.TELEGRAM_TOKEN!, {
   polling: {
@@ -38,11 +35,19 @@ commands.add('all', (bot, msg, _params, _input) => {
   );
 });
 
-commands.add('gpt', handleGpt);
-commands.add('img', handleImg);
-commands.add('help', handleHelp);
-commands.add('summary', handleSummary);
-commands.add('git', handleJoke);
+commands.add('gpt', h.handleGpt);
+commands.add('img', h.handleImg);
+commands.add('help', h.handleHelp);
+commands.add('summary', h.handleSummary);
+commands.add('git', h.handleJoke);
+commands.add('transcribe', h.handleTranscript);
+
+// short names
+commands.add('g', h.handleGpt);
+commands.add('i', h.handleImg);
+commands.add('s', h.handleSummary);
+commands.add('j', h.handleJoke);
+commands.add('t', h.handleTranscript);
 
 bot.on('message', (msg, data) => {
   // Команды не запоминаем

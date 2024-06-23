@@ -12,6 +12,8 @@ function getEnvValue(key: string) {
 export const config = {
   telegramToken: getEnvValue('TELEGRAM_TOKEN'),
   weatherApiKey: getEnvValue('WEATHER_API_KEY'),
+  assemblyAiApiKey: getEnvValue('ASSEMBLY_AI_API_KEY'),
   port: getEnvValue('PORT'),
   adminSecret: getEnvValue('ADMIN_SECRET'),
+  selfPingSecret: getEnvValue('SELF_PING_SECRET'),
 };

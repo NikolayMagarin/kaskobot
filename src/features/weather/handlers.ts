@@ -2,7 +2,7 @@ import { getCurrentWeather } from '.';
 import { CommandHandler } from '../../manage-commands';
 import { buildKaskaWithWeatherImage } from './make-image';
 
-export const handleGpt: CommandHandler = (bot, msg, params, input) => {
+export const handlWeather: CommandHandler = (bot, msg, params, input) => {
   getCurrentWeather(input).then((weather) => {
     if (weather.error) {
       bot.sendMessage(msg.chat.id, weather.error.message);

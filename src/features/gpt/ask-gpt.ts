@@ -49,3 +49,7 @@ export async function askGPT(
     }
   );
 }
+
+export async function clearContext(chatId: number) {
+  memory[chatId] = [];
+}

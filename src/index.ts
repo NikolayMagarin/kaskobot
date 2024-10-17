@@ -36,6 +36,7 @@ commands.add('all', (bot, msg, _params, _input) => {
 });
 
 commands.add('gpt', h.handleGpt);
+commands.add('gptclear', h.handleGptClear);
 commands.add('img', h.handleImg);
 commands.add('help', h.handleHelp);
 commands.add('summary', h.handleSummary);
@@ -44,6 +45,7 @@ commands.add('transcribe', h.handleTranscript);
 
 // short names
 commands.add('g', h.handleGpt);
+commands.add('gc', h.handleGptClear);
 commands.add('i', h.handleImg);
 commands.add('s', h.handleSummary);
 commands.add('j', h.handleJoke);

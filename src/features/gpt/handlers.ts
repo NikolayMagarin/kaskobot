@@ -1,5 +1,5 @@
 import { CommandHandler } from '../../manage-commands';
-import { askGPT } from './ask-gpt';
+import { askGPT, clearContext } from './ask-gpt';
 import { drawImage } from './draw-image';
 
 export const handleGpt: CommandHandler = (bot, msg, params, input) => {
@@ -9,6 +9,11 @@ export const handleGpt: CommandHandler = (bot, msg, params, input) => {
   askGPT(input, userName, msg.chat.id).then((answer) => {
     bot.sendMessage(msg.chat.id, answer);
   });
+};
+
+export const handleGptClear: CommandHandler = (bot, msg, params, input) => {
+  clearContext(msg.chat.id);
+  bot.sendMessage(msg.chat.id, 'Контекст удален');
 };
 
 export const handleImg: CommandHandler = (bot, msg, params, input) => {

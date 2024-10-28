@@ -31,7 +31,21 @@ commands.add('start', (bot, msg, _params, _input) => {
 commands.add('all', (bot, msg, _params, _input) => {
   bot.sendMessage(
     msg.chat.id,
-    '@andrewbogdanovDA @burningstar1 @dalf_the_maker @denekben @iwascleaningthechimney @MinecraftLoverOneLife @NikolayMagarin @PoloViks'
+    [
+      'denekben',
+      'andre_bogdanov',
+      'burningstar1',
+      'dalf_the_maker',
+      'chukavina_darya',
+      'iwascleaningthechimney',
+      'NikolayMagarin',
+      'qibonri',
+      'MinecraftLoverOneLife',
+      'kaskogartbot',
+      'PoloViks',
+    ]
+      .map((name) => '@' + name)
+      .join(' ')
   );
 });
 

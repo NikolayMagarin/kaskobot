@@ -21,9 +21,10 @@
   "dependencies": {
     "assemblyai": "^4.5.0",
     "assert": "^2.1.0",
+    "axios": "^1.7.7",
     "dotenv": "^16.4.5",
     "express": "^4.19.2",
-    "g4f": "^1.4.3",
+    "g4f": "^1.4.6",
     "images": "^3.2.4",
     "node-fetch": "^2.7.0",
     "node-telegram-bot-api": "^0.66.0"

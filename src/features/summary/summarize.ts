@@ -1,3 +1,4 @@
+import { makeGptRequest } from '../gpt/ask-gpt';
 import { g4f } from './g4f';
 
 const systemMessage = `Пересскажи эту беседу, оперируй именами если нужно. В ответе должен быть только перессказ, не нужно писать вводные фразы. Вот сама беседа:`;
@@ -20,7 +21,7 @@ export function summarize(discussion: string[]) {
 
     if (curChunkSize >= approximateChunkSize || i === discussion.length - 1) {
       chunkPromises.push(
-        g4f.chatCompletion([
+        makeGptRequest([
           {
             role: 'user',
             content: systemMessage + '\n' + curChunk.join('\n'),

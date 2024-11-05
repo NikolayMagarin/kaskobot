@@ -33,7 +33,8 @@ export const msgToText: Record<MemorizableMessageType, ConvertFunction> = {
   location: (_msg, _bot) => '*Отправляет геолокацию*',
   new_chat_photo: (_msg, _bot) => '*Изменяет фотографию чата*',
   new_chat_title: (_msg, _bot) => '*Изменяет название чата*',
-  photo: (_msg, _bot) => '*Отправляет фото*',
+  photo: (msg, _bot) =>
+    `*Отправляет фото${msg.text ? ' с подписью* ' + msg.text : '*'}`,
   pinned_message: (_msg, _bot) => '*Закрепляет сообщение*',
   sticker: (_msg, _bot) => '*Отправляет стикер*',
   video: (_msg, _bot) => '*Отправляет видео*',

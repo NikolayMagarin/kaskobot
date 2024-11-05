@@ -56,6 +56,7 @@ commands.add('help', h.handleHelp);
 commands.add('summary', h.handleSummary);
 commands.add('git', h.handleJoke);
 commands.add('transcribe', h.handleTranscript);
+commands.add('meme', h.handleMeme);
 
 // short names
 commands.add('g', h.handleGpt);
@@ -64,6 +65,7 @@ commands.add('i', h.handleImg);
 commands.add('s', h.handleSummary);
 commands.add('j', h.handleJoke);
 commands.add('t', h.handleTranscript);
+commands.add('m', h.handleMeme);
 
 bot.on('message', (msg, data) => {
   // Команды не запоминаем

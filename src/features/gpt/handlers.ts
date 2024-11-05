@@ -7,7 +7,9 @@ export const handleGpt: CommandHandler = (bot, msg, params, input) => {
 
   const userName = msg.from?.first_name || msg.from?.username || 'неизвестный';
   askGPT(input, userName, msg.chat.id).then((answer) => {
-    bot.sendMessage(msg.chat.id, answer);
+    bot.sendMessage(msg.chat.id, answer, {
+      parse_mode: 'Markdown',
+    });
   });
 };
 

@@ -1,5 +1,4 @@
 import { makeGptRequest } from '../gpt/ask-gpt';
-import { g4f } from './g4f';
 
 const systemMessage = `Пересскажи эту беседу, оперируй именами если нужно. В ответе должен быть только перессказ, не нужно писать вводные фразы. Вот сама беседа:`;
 const approximateMaxChunkSize = 2000; // Максимальное количество символов в чанке

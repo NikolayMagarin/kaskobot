@@ -26,7 +26,8 @@ export class CommandManager {
       const commandName = match[1] || '';
       const commandParams = (match[3] || '')
         .split(',')
-        .map((param) => param.trim());
+        .map((param) => param.trim())
+        .filter((param) => param.length);
       const commandInput = match[5] || undefined;
 
       const handler = this._commands.get(commandName);

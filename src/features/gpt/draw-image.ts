@@ -1,5 +1,7 @@
+import axios from 'axios';
+import { handleNexraTask } from '../../utils/nexra-task';
 import { randomFromArray } from '../../utils/random-from-array';
-import { g4f } from './g4f';
+import { translation } from '../../utils/translation';
 import {
   imgStyles,
   Options,
@@ -21,7 +23,7 @@ export function drawImage(
   style: string | undefined,
   translateCalback: TranslatedCalback = () => {}
 ): Promise<{
-  image: Buffer | null;
+  image: string | null;
   error: 'validation' | 'translation' | 'generation' | null;
 }> {
   let options: Options;
@@ -72,7 +74,7 @@ export function drawImage(
     replyMessage.styleSubTypeLength = imgStyles[defaultStyleType].length;
   }
 
-  const translate = g4f.translation({
+  const translate = translation({
     text: input,
     source: 'ru',
     target: 'en',
@@ -80,11 +82,10 @@ export function drawImage(
 
   return translate
     .then((translated) => {
-      translateCalback(translated.translation.result, replyMessage);
-      return g4f
-        .imageGeneration(translated.translation.result, options)
-        .then((base64Image) => {
-          return { image: Buffer.from(base64Image, 'base64'), error: null };
+      translateCalback(translated.translate.result, replyMessage);
+      return makeImageGenerationRequest(translated.translate.result, options)
+        .then((linkToImage) => {
+          return { image: linkToImage, error: null };
         })
         .catch((reason) => {
           console.error(reason);
@@ -95,4 +96,50 @@ export function drawImage(
       console.error(reason);
       return Promise.resolve({ image: null, error: 'translation' as const });
     });
+}
+
+function makeImageGenerationRequest(prompt: string, options: Options) {
+  let body: Record<string, any> = {};
+
+  switch (options.provider.name) {
+    case 'Prodia':
+      body = {
+        prompt,
+        model: 'prodia',
+        data: {
+          negative_prompt: '',
+          model: options.providerOptions?.model,
+          sampler: 'DPM++ 2M Karras',
+          steps: 25,
+          cfg_scale: 7,
+        },
+      };
+      break;
+
+    case 'Emi':
+      body = {
+        prompt,
+        model: 'emi',
+      };
+      break;
+    default:
+      break;
+  }
+
+  return new Promise<string>((resolve, reject) => {
+    axios
+      .post('https://nexra.aryahcr.cc/api/image/complements', body, {
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      })
+      .then(
+        handleNexraTask(
+          (response) => resolve(response.images[0]),
+          reject,
+          'http://nexra.aryahcr.cc/api/image/complements/'
+        )
+      )
+      .catch((error) => reject(error));
+  });
 }

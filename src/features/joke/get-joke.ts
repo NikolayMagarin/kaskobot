@@ -1,5 +1,6 @@
 import fetch from 'node-fetch';
 import { G4F } from 'g4f';
+import { translation } from '../../utils/translation';
 
 export const g4f = new G4F();
 
@@ -19,13 +20,11 @@ export function getJoke(
   safeMode: boolean
 ): Promise<JokeResult> {
   const translateKeyWord = keyWord
-    ? g4f
-        .translation({
-          text: keyWord,
-          source: 'ru',
-          target: 'en',
-        })
-        .then((translated) => translated.translation.result as string)
+    ? translation({
+        text: keyWord,
+        source: 'ru',
+        target: 'en',
+      }).then((translated) => translated.translate.result as string)
     : Promise.resolve(undefined);
 
   return translateKeyWord
@@ -44,17 +43,16 @@ export function getJoke(
             (result.setup ? result.setup + '\n' + result.delivery : undefined);
 
           if (joke) {
-            return g4f
-              .translation({
-                text: joke,
-                source: result.lang,
-                target: 'ru',
-              })
+            return translation({
+              text: joke,
+              source: result.lang,
+              target: 'ru',
+            })
               .then<JokeResult>((translated) => {
                 return {
                   joke: {
                     text: joke,
-                    translated: translated.translation.result,
+                    translated: translated.translate.result,
                     originalLang: result.lang,
                   },
                   keyWord: keyWordTranslated,

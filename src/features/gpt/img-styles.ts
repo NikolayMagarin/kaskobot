@@ -2,7 +2,7 @@ import { g4f } from './g4f';
 
 export interface Options {
   provider: (typeof g4f.providers)[keyof typeof g4f.providers];
-  providerOptions?: Record<string, string | number | boolean>;
+  providerOptions: Record<string, string | number | boolean>;
 }
 
 // default prodia options with model specified

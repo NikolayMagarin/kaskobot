@@ -45,7 +45,7 @@ export const handleSummary: CommandHandler = (bot, msg, params, input) => {
   const memoryPart = globalData.memory.slice(start, end);
 
   summarize(memoryPart.map((memMessage) => memMessage.text)).then((sum) => {
-    bot.sendMessage(msg.chat.id, sum, {
+    bot.sendMessage(msg.chat.id, sum ? sum : 'Нечего пересказывать', {
       reply_to_message_id: msg.message_id,
     });
   });

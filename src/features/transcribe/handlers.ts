@@ -16,7 +16,7 @@ export const handleTranscript: CommandHandler = (bot, msg, params, input) => {
     .then((transcripton) => {
       const text = transcripton.text;
       if (typeof text === 'string') {
-        bot.sendMessage(msg.chat.id, text, {
+        bot.sendMessage(msg.chat.id, text ? text : 'Слов не обнаружено', {
           reply_to_message_id: msg.message_id,
         });
       } else {

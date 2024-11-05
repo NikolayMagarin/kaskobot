@@ -1,8 +1,6 @@
-import { g4f } from './g4f';
 import { prompts } from './gpt-prompts';
 import axios from 'axios';
-import { sleep } from '../../utils/sleep';
-import { rejects } from 'assert';
+import { handleNexraTask } from '../../utils/nexra-task';
 
 interface MemoryItem {
   role: 'system' | 'user' | 'assistant';
@@ -37,7 +35,6 @@ export async function askGPT(
 
   const messages = [startSystemMessage].concat(memory[chatId]);
 
-  // return g4f.chatCompletion(messages).then(
   return makeGptRequest(messages).then(
     (answer) => {
       memory[chatId].push({
@@ -76,37 +73,15 @@ export function makeGptRequest(messages: MemoryItem[]) {
           },
         }
       )
-      .then(async (result) => {
-        let id = encodeURIComponent(result.data.id);
-
-        let response = null;
-        let data = true;
-        while (data) {
-          await sleep(500);
-
-          response = await axios.get(
-            'https://nexra.aryahcr.cc/api/chat/task/' + id
-          );
-          response = response.data;
-
-          switch (response.status) {
-            case 'pending':
-              data = true;
-              break;
-            case 'error':
-            case 'completed':
-            case 'not_found':
-              data = false;
-              break;
-          }
-        }
-
-        if (response.status === 'completed') {
-          resolve(response.gpt);
-        } else {
-          reject(response);
-        }
-      })
+      .then(
+        handleNexraTask(
+          (response) => {
+            resolve(response.gpt);
+          },
+          reject,
+          'https://nexra.aryahcr.cc/api/chat/task/'
+        )
+      )
       .catch((error) => {
         reject(error);
       });

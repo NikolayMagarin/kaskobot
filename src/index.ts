@@ -32,17 +32,15 @@ commands.add('all', (bot, msg, _params, _input) => {
   bot.sendMessage(
     msg.chat.id,
     [
-      'denekben',
-      'andre_bogdanov',
-      'burningstar1',
       'dalf_the_maker',
-      'chukavina_darya',
-      'iwascleaningthechimney',
+      'burningstar1',
+      'denekben',
       'NikolayMagarin',
+      'iwascleaningthechimney',
+      'andre_bogdanov',
       'qibonri',
-      'MinecraftLoverOneLife',
-      'kaskogartbot',
       'PoloViks',
+      'chukavina_darya',
     ]
       .map((name) => '@' + name)
       .join(' ')
